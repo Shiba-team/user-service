@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -42,11 +43,17 @@ func Login(c * gin.Context){
 }
 
 func VerifyToken(c * gin.Context){
-	var token string
-	if err := c.ShouldBindJSON(&token); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	tokenHeader := c.Request.Header.Get("Authorization")
+		if tokenHeader == "" {
+			log.Println("unAuth")
+			c.JSON(http.StatusForbidden, gin.H{
+				"error": "Token is required!",
+			})
+			c.Abort()
+			return
+		}
+	token := strings.Split(tokenHeader, " ")[1]
+
 	result, err := service.ValidateToken(token);
 	if err != nil {
 		log.Println("unAuth")
