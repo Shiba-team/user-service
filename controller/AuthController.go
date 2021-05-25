@@ -42,7 +42,8 @@ func Login(c * gin.Context){
 	c.JSON(http.StatusAccepted, gin.H{"token":msg})
 }
 
-func VerifyToken(c * gin.Context){
+func VerifyToken(c * gin.Context) {
+	log.Println("aaa")
 	tokenHeader := c.Request.Header.Get("Authorization")
 		if tokenHeader == "" {
 			log.Println("unAuth")
@@ -52,7 +53,9 @@ func VerifyToken(c * gin.Context){
 			c.Abort()
 			return
 		}
+	
 	token := strings.Split(tokenHeader, " ")[1]
+	
 
 	result, err := service.ValidateToken(token);
 	if err != nil {
@@ -67,8 +70,4 @@ func VerifyToken(c * gin.Context){
 		username := string(claims["username"].(string))
 		c.JSON(http.StatusAccepted, gin.H{"username":username})
 	}
-
-	c.JSON(401, gin.H{
-		"error": "No Authentication",
-	})
 }

@@ -13,7 +13,7 @@ import (
 )
 
 type authCustomClaims struct {
-	username string
+	Username string `json:"username"`
 	jwt.StandardClaims
 }
 
