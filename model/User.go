@@ -30,6 +30,14 @@ type UserRegisterDto struct {
 type UserLoginDto struct {
     Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
+    Name       string            `json:"name"`
+}
+
+type UserDto struct{
+    Username   string           `json:"username"`
+    Email   string           `json:"email" `
+    Name       string            `json:"name"`
+    SecretKey  string             `json:"secretKey"`
 }
 
 func UserRegisterDtoToEntity (dto UserRegisterDto) interface{}{
@@ -48,4 +56,14 @@ func UserRegisterDtoToEntity (dto UserRegisterDto) interface{}{
         user.Created_at = time.Now()
     }
     return user;
+}
+
+
+func EntityToUserDto (user User) UserDto{
+    var userDto UserDto;
+    userDto.SecretKey = user.SecretKey
+    userDto.Email = user.Email
+    userDto.Username = user.Username
+    userDto.Name = user.Name
+    return userDto;
 }
