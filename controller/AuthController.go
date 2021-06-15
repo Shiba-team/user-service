@@ -22,9 +22,10 @@ func Register(c * gin.Context){
 	  }
 	err := service.Register(input)
 	if err != ""{
-		c.JSON(http.StatusInternalServerError, gin.H{"messageError": err})
+		c.JSON(http.StatusInternalServerError, gin.H{"success" : false, "message": err})
+		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Register successful!"})
+	c.JSON(http.StatusOK, gin.H{"success" : true, "message": "Register successful!"})
 }
 
 func Login(c * gin.Context){
@@ -43,7 +44,7 @@ func Login(c * gin.Context){
 }
 
 func VerifyToken(c * gin.Context) {
-	log.Println("aaa")
+
 	tokenHeader := c.Request.Header.Get("Authorization")
 		if tokenHeader == "" {
 			log.Println("unAuth")

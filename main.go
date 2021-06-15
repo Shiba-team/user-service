@@ -17,7 +17,7 @@ func setupRouter() *gin.Engine {
 	{
 		router.AuthRouter(client.Group("/auth"))
 		router.AdminRouter(client.Group("/admin"))
-
+		router.UserRouter(client.Group("/user"))
 	}
 	
 	return r

@@ -10,3 +10,4 @@ func GetAllUser() ([]model.User, error){
 	userRepo := repo.NewUserRepo(config.Mongo.UserCollection)
 	return userRepo.FindAllUser()
 }
+
