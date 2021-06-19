@@ -1,1 +1,1 @@
-web: bin/user-service
+web: main
