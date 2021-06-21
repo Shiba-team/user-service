@@ -3,7 +3,6 @@ package controller
 import (
 	"authentication/model"
 	"authentication/service"
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -31,16 +30,15 @@ func Register(c * gin.Context){
 func Login(c * gin.Context){
 	var input model.UserLoginDto;
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "message": err.Error()})
 		return
 	}
 	resutl, msg := service.Login(input)
 	if(!resutl){
-		c.JSON(http.StatusUnauthorized, gin.H{"error": msg})
+		c.JSON(http.StatusUnauthorized, gin.H{"success": false, "message": msg})
 		return
 	}
-	fmt.Println(msg)
-	c.JSON(http.StatusAccepted, gin.H{"token":msg})
+	c.JSON(http.StatusAccepted, gin.H{"success": false, "message": "Login successful!", "data":msg})
 }
 
 func VerifyToken(c * gin.Context) {
